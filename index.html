@@ -90,7 +90,12 @@
 			};
 
 			const wrapperDiv = document.createElement('div');
+			wrapperDiv.innerHTML = 'Which is better?'
+			wrapperDiv.append(document.createElement('br'));
 			wrapperDiv.append(button1);
+			wrapperDiv.append(document.createElement('br'));
+			wrapperDiv.append(' OR ')
+			wrapperDiv.append(document.createElement('br'));
 			wrapperDiv.append(button2);
 
 			return wrapperDiv;
