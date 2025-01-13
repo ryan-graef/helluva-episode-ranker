@@ -1,0 +1,261 @@
+<html>
+<head>
+	<style>
+		.choice-button {
+			color: red;
+			font-size: 24px;
+			padding: 5px;
+			margin: 5px;
+		}
+	</style>
+	<script type="text/javascript">
+		function shuffleArray(array) {
+		    for (var i = array.length - 1; i >= 0; i--) {
+		        var j = Math.floor(Math.random() * (i + 1));
+		        var temp = array[i];
+		        array[i] = array[j];
+		        array[j] = temp;
+		    }
+		}
+
+		let choiceIndex = -1;
+
+		function renderNextChoice () {
+			choiceIndex++;
+
+			document.getElementById('matchup-body').innerHTML = '';
+
+			if(choiceIndex < matchups.length) {
+				document.getElementById('matchup-body').append(getMatchupHtml(matchups[choiceIndex]));
+
+				document.getElementById('progress').innerHTML = `Question ${choiceIndex + 1} of ${matchups.length}`;
+			} else {
+				document.getElementById('matchup-body').append(getFinalHtml());
+
+				document.getElementById('progress').innerHTML = '';
+			}
+
+
+		}
+
+		function solveMatchup (winner, loser) {
+			winner.score++;
+			loser.score--;
+
+			renderNextChoice();
+		}
+
+		function getFinalHtml () {
+			episodes.sort((a, b) => {
+				if (a.score >= b.score) {
+					return -1;
+				} else {
+					return 1;
+				}
+			})
+
+			const wrapperDiv = document.createElement('div');
+			wrapperDiv.innerHTML = `Here is your ranked episodes:`;
+			wrapperDiv.append(document.createElement('br'));
+			wrapperDiv.append(document.createElement('br'));
+
+			for(let i = 0; i < episodes.length; i++){
+				const episode = episodes[i];
+
+				wrapperDiv.append(`Season ${episode.season}, EP ${episode.episode}: ${episode.name}.  Score: ${episode.score}`)
+				wrapperDiv.append(document.createElement('br'));
+
+			}
+
+			return wrapperDiv;
+		}
+
+		function getMatchupHtml (matchup) {
+			const { episode1, episode2 } = matchup;
+
+			const button1 = document.createElement('button');
+			const button2 = document.createElement('button');
+
+			button1.innerHTML = `Season ${episode1.season}, EP ${episode1.episode}: ${episode1.name}`;
+			button2.innerHTML = `Season ${episode2.season}, EP ${episode2.episode}: ${episode2.name}`;
+
+			button1.classList.add('choice-button');
+			button2.classList.add('choice-button');
+
+			button1.onclick = () => {
+				solveMatchup(episode1, episode2);
+			};
+			button2.onclick = () => {
+				solveMatchup(episode2, episode1);
+			};
+
+			const wrapperDiv = document.createElement('div');
+			wrapperDiv.append(button1);
+			wrapperDiv.append(button2);
+
+			return wrapperDiv;
+		}
+
+		let episodes = [
+				{
+					season: 1,
+					episode: 1,
+					score: 0,
+					name: 'Murder Family'
+				},
+				{
+					season: 1,
+					episode: 2,
+					score: 0,
+					name: 'Loo Loo Land'
+				},
+				{
+					season: 1,
+					episode: 3,
+					score: 0,
+					name: 'Spring Broken'
+				},
+				{
+					season: 1,
+					episode: 4,
+					score: 0,
+					name: 'C.H.E.R.U.B.'
+				},
+				{
+					season: 1,
+					episode: 5,
+					score: 0,
+					name: 'The Harvest Moon Festival'
+				},
+				{
+					season: 1,
+					episode: 6,
+					score: 0,
+					name: 'Truth Seekers'
+				},
+				{
+					season: 1,
+					episode: 7,
+					score: 0,
+					name: 'Ozzie\'s'
+				},
+				{
+					season: 1,
+					episode: 8,
+					score: 0,
+					name: 'Queen Bee'
+				},
+				{
+					season: 2,
+					episode: 1,
+					score: 0,
+					name: 'The Circus'
+				},
+				{
+					season: 2,
+					episode: 2,
+					score: 0,
+					name: 'Seeing Stars'
+				},
+				{
+					season: 2,
+					episode: 3,
+					score: 0,
+					name: 'Exes and Oohs'
+				},
+				{
+					season: 2,
+					episode: 4,
+					score: 0,
+					name: 'Western Energy'
+				},
+				{
+					season: 2,
+					episode: 5,
+					score: 0,
+					name: 'Unhappy Campers'
+				},
+				{
+					season: 2,
+					episode: 6,
+					score: 0,
+					name: 'Oops'
+				},
+				{
+					season: 2,
+					episode: 7,
+					score: 0,
+					name: 'Mammon\'s Magnificent Musical Mid-Season Special (ft Fizzarolli)'
+				},
+				{
+					season: 2,
+					episode: 8,
+					score: 0,
+					name: 'The Full Moon'
+				},
+				{
+					season: 2,
+					episode: 9,
+					score: 0,
+					name: 'Apology Tour'
+				},
+				{
+					season: 2,
+					episode: 10,
+					score: 0,
+					name: 'Ghostf**kers'
+				},
+				{
+					season: 2,
+					episode: 11,
+					score: 0,
+					name: 'Mastermind'
+				},
+				{
+					season: 2,
+					episode: 12,
+					score: 0,
+					name: 'Sinsmas'
+				}
+			];
+
+		const matchups = [ ];
+
+		episodes.forEach((episode1) => {
+			episodes.forEach((episode2) => {
+				if (episode1.name !== episode2.name) {
+					let matchupExists = false;
+
+					matchups.forEach((existingMatchup) => {
+						if( ( existingMatchup.episode1.name === episode1.name && existingMatchup.episode2.name === episode2.name ) || ( existingMatchup.episode1.name === episode2.name && existingMatchup.episode2.name === episode1.name )) {
+							matchupExists = true;
+						}
+					});
+
+					if(!matchupExists) {
+						matchups.push({
+							episode1,
+							episode2
+						});
+					}
+				}
+			});
+		});
+
+		shuffleArray(matchups);
+
+		window.addEventListener('load', function () {
+			console.log('matchups', matchups.length)
+			renderNextChoice();
+		})
+
+	</script>
+</head>
+<body>
+	<div id="matchup-body">
+
+	</div>
+	<div id="progress">
+	</div>
+</body>
+</html>
