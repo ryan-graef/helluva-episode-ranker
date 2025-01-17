@@ -6,6 +6,11 @@
 			font-size: 24px;
 			padding: 5px;
 			margin: 5px;
+
+			img {
+				max-width: 250px;
+				margin: auto;
+			}
 		}
 	</style>
 	<script type="text/javascript">
@@ -39,15 +44,18 @@
 		}
 
 		function solveMatchup (winner, loser) {
-			winner.score++;
-			loser.score--;
+			winner.wins++;
+			loser.losses++;
+
+			winner.winPercentage = winner.wins / (winner.wins + winner.losses)
+			loser.winPercentage = loser.wins / (loser.wins + loser.losses)
 
 			renderNextChoice();
 		}
 
 		function getFinalHtml () {
 			episodes.sort((a, b) => {
-				if (a.score >= b.score) {
+				if (a.winPercentage >= b.winPercentage) {
 					return -1;
 				} else {
 					return 1;
@@ -62,7 +70,7 @@
 			for(let i = 0; i < episodes.length; i++){
 				const episode = episodes[i];
 
-				wrapperDiv.append(`Season ${episode.season}, EP ${episode.episode}: ${episode.name}.  Score: ${episode.score}`)
+				wrapperDiv.append(`Season ${episode.season}, EP ${episode.episode}: ${episode.name}.  Win Percentage: ${(episode.winPercentage*100).toFixed(2)}%`)
 				wrapperDiv.append(document.createElement('br'));
 
 			}
@@ -76,8 +84,20 @@
 			const button1 = document.createElement('button');
 			const button2 = document.createElement('button');
 
+			const button1Img = document.createElement('img');
+			const button2Img = document.createElement('img');
+
+			button1Img.src = `thumbs/${episode1.thumb}`;
+			button2Img.src = `thumbs/${episode2.thumb}`;
+
 			button1.innerHTML = `Season ${episode1.season}, EP ${episode1.episode}: ${episode1.name}`;
 			button2.innerHTML = `Season ${episode2.season}, EP ${episode2.episode}: ${episode2.name}`;
+
+			button1.append(document.createElement('br'));
+			button2.append(document.createElement('br'));
+
+			button1.append(button1Img);
+			button2.append(button2Img);
 
 			button1.classList.add('choice-button');
 			button2.classList.add('choice-button');
@@ -105,126 +125,186 @@
 				{
 					season: 1,
 					episode: 1,
-					score: 0,
-					name: 'Murder Family'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'Murder Family',
+					thumb: 's1ep1.jpg'
 				},
 				{
 					season: 1,
 					episode: 2,
-					score: 0,
-					name: 'Loo Loo Land'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'Loo Loo Land',
+					thumb: 's1ep2.jpg'
 				},
 				{
 					season: 1,
 					episode: 3,
-					score: 0,
-					name: 'Spring Broken'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'Spring Broken',
+					thumb: 's1ep3.jpg'
 				},
 				{
 					season: 1,
 					episode: 4,
-					score: 0,
-					name: 'C.H.E.R.U.B.'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'C.H.E.R.U.B.',
+					thumb: 's1ep4.jpg'
 				},
 				{
 					season: 1,
 					episode: 5,
-					score: 0,
-					name: 'The Harvest Moon Festival'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'The Harvest Moon Festival',
+					thumb: 's1ep5.jpg'
 				},
 				{
 					season: 1,
 					episode: 6,
-					score: 0,
-					name: 'Truth Seekers'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'Truth Seekers',
+					thumb: 's1ep6.jpg'
 				},
 				{
 					season: 1,
 					episode: 7,
-					score: 0,
-					name: 'Ozzie\'s'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'Ozzie\'s',
+					thumb: 's1ep7.jpg'
 				},
 				{
 					season: 1,
 					episode: 8,
-					score: 0,
-					name: 'Queen Bee'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'Queen Bee',
+					thumb: 's1ep8.jpg'
 				},
 				{
 					season: 2,
 					episode: 1,
-					score: 0,
-					name: 'The Circus'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'The Circus',
+					thumb: 's1ep1.jpg'
 				},
 				{
 					season: 2,
 					episode: 2,
-					score: 0,
-					name: 'Seeing Stars'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'Seeing Stars',
+					thumb: 's2ep2.jpg'
 				},
 				{
 					season: 2,
 					episode: 3,
-					score: 0,
-					name: 'Exes and Oohs'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'Exes and Oohs',
+					thumb: 's2ep3.jpg'
 				},
 				{
 					season: 2,
 					episode: 4,
-					score: 0,
-					name: 'Western Energy'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'Western Energy',
+					thumb: 's2ep4.jpg'
 				},
 				{
 					season: 2,
 					episode: 5,
-					score: 0,
-					name: 'Unhappy Campers'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'Unhappy Campers',
+					thumb: 's2ep5.jpg'
 				},
 				{
 					season: 2,
 					episode: 6,
-					score: 0,
-					name: 'Oops'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'Oops',
+					thumb: 's2ep6.jpg'
 				},
 				{
 					season: 2,
 					episode: 7,
-					score: 0,
-					name: 'Mammon\'s Magnificent Musical Mid-Season Special (ft Fizzarolli)'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'Mammon\'s Magnificent Musical Mid-Season Special (ft Fizzarolli)',
+					thumb: 's2ep7.jpg'
 				},
 				{
 					season: 2,
 					episode: 8,
-					score: 0,
-					name: 'The Full Moon'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'The Full Moon',
+					thumb: 's2ep8.jpg'
 				},
 				{
 					season: 2,
 					episode: 9,
-					score: 0,
-					name: 'Apology Tour'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'Apology Tour',
+					thumb: 's2ep9.jpg'
 				},
 				{
 					season: 2,
 					episode: 10,
-					score: 0,
-					name: 'Ghostf**kers'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'Ghostf**kers',
+					thumb: 's2ep10.jpg'
 				},
 				{
 					season: 2,
 					episode: 11,
-					score: 0,
-					name: 'Mastermind'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'Mastermind',
+					thumb: 's2ep11.jpg'
 				},
 				{
 					season: 2,
 					episode: 12,
-					score: 0,
-					name: 'Sinsmas'
+					wins: 0,
+					losses: 0,
+					winPercentage: 0,
+					name: 'Sinsmas',
+					thumb: 's2ep12.jpg'
 				}
 			];
 
-		const matchups = [ ];
+		let matchups = [ ];
 
 		episodes.forEach((episode1) => {
 			episodes.forEach((episode2) => {
@@ -246,6 +326,12 @@
 				}
 			});
 		});
+
+		const quizLength = matchups.length / 2;
+		for(let i = 0; i < quizLength; i++){
+			const randomIndex = Math.floor(Math.random()*matchups.length);
+			matchups.splice(randomIndex, 1);
+		}
 
 		shuffleArray(matchups);
 
